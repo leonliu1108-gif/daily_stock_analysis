@@ -71,7 +71,13 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL || secrets.GEMINI_MODEL || 'gemini-3-flash-preview' }}
           GEMINI_MODEL_FALLBACK: ${{ vars.GEMINI_MODEL_FALLBACK || secrets.GEMINI_MODEL_FALLBACK || 'gemini-2.5-flash' }}
-          GEMINI_REQUEST_DELAY: '3.0'
+          GEMINI_REQUEST_DELAY: '3'
+          # 强制 LiteLLM 失败后重试（增加成功率）
+          LITELLM_RETRY_COUNT: 3
+          # 限制并发（如果项目代码支持映射，尝试将其设为1）
+          MAX_WORKERS: 1 
+        run: python main.py
+
           
           # AIHubMix（优先于 OPENAI_API_KEY，自动适配 base_url，推荐国内用户）
           AIHUBMIX_KEY: ${{ secrets.AIHUBMIX_KEY }}
